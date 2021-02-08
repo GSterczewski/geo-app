@@ -1,0 +1,58 @@
+//$Dark Blue (Dark Mode Elements): hsl(209, 23%, 22%);
+//$Very Dark Blue (Dark Mode Background): hsl(207, 26%, 17%);
+// $Very Dark Blue (Light Mode Text): hsl(200, 15%, 8%);
+// $Dark Gray (Light Mode Input): hsl(0, 0%, 52%);
+// $Very Light Gray (Light Mode Background): hsl(0, 0%, 98%);
+// $White (Dark Mode Text & Light Mode Elements): hsl(0, 0%, 100%);
+
+* {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+.dark-theme {
+  --background: hsl(207, 26%, 17%);
+  --elements-background: hsl(209, 23%, 22%);
+  --text-color: hsl(0, 0%, 100%);
+  --input-color: hsl(0, 0%, 100%);
+}
+
+.light-theme {
+  --background: hsl(0, 0%, 98%);
+  --elements-background: hsl(0, 0%, 100%);
+  --text-color: hsl(200, 15%, 8%);
+  --input-color: hsl(0, 0%, 52%);
+}
+
+$horizontal-padding: 2rem;
+
+.wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: var(--background);
+}
+.header {
+  background-color: var(--elements-background);
+  color: var(--text-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $horizontal-padding;
+
+  &__title {
+    font-size: 1.5rem;
+  }
+}
+.mode-button {
+  border: none;
+  background-color: transparent;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &__icon {
+    font-size: 1.2rem;
+    margin-right: 8px;
+  }
+}
