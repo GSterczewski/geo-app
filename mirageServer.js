@@ -5,8 +5,21 @@ const apiURL = "mirage/api";
 const initServer =  () => createServer({
   routes() {
     this.namespace = apiURL;
-    this.get("/all", () => stubs);
-    this.get("/error", ()=> new Response(500,{},{error: "Internal server error"}));
+    this.get("/all", () => {
+      return stubs;
+    });
+    this.get("/all/alpha", (_,request) => {
+      const codes = request.queryParams.codes.split(";").map(code => code.toUpperCase());
+      
+      if(codes && codes.length){
+       
+        const result =  stubs.filter(stub => codes.includes(stub.alpha3Code) || codes.includes(stub.alpha2Code))
+        return result.length ? result : new Response(404); 
+      }
+      return Response(400);
+    });
+        
+    this.get("/error", ()=> new Response(500));
     this.get("/name/:name", (_,request)=>{
       const name = request.params.name;
       const result = stubs.filter(item => item.name.toLocaleLowerCase() === name.toLocaleLowerCase());
