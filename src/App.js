@@ -1,11 +1,13 @@
 
+import { ThemeProvider } from "components/ThemeProvider";
+import  CountriesProvider  from "components/CountriesProvider";
+
 import Layout from "components/Layout";
 import Header from "components/Header";
 import ThemeButton from "components/ThemeButton";
 import Searchbar from "components/Searchbar";
 import RegionSelect from "components/RegionSelect";
-
-import { ThemeProvider } from "components/ThemeProvider";
+import CountriesContainer from "components/CountriesContainer";
 
 function App() {
   
@@ -45,8 +47,11 @@ function App() {
         <Searchbar />
         <RegionSelect options={regions} label="Filter by region" />
         </aside>
-        <main>
+        <CountriesProvider>
+        <main className="element">
+          <CountriesContainer />
         </main>
+        </CountriesProvider>
     </Layout>
       
     </ThemeProvider>

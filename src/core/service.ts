@@ -16,7 +16,7 @@ export default class CountriesService {
     return response.slice(( pageNumber * pageSize) - pageSize , pageNumber * pageSize );
   }
   
-  public async getAllCountriesByPopulation(page = 1, pageSize = 50): Promise<Array<Country>> {
+  public async getAllCountries(page = 1, pageSize = 50): Promise<Array<Country>> {
       
     const request = await this.api.fetchAll("/all?fields=name;capital;population;alpha3Code;flag;region");
     if(request.hasErrors){

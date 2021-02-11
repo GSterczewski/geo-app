@@ -1,5 +1,5 @@
 import CountriesAPIService from "core/api";
-import  initServer from "../../../mirageServer.js"; 
+import  initServer from "../../mirageServer.js"; 
 
 
 beforeAll(()=>{

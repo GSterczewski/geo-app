@@ -100,3 +100,35 @@ $horizontal-padding--desktop: 5rem;
 .region-select {
   width: 150px;
 }
+
+.country-list {
+  width: 100%;
+  min-width: 300px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-content: center;
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+
+.country-info {
+  margin-bottom: 2rem;
+  width: 300px;
+  background-color: var(--elements-background);
+  color: var(--text-color);
+  &__flag {
+    width: 100%;
+  }
+  &__content {
+    padding: 1rem 1.2rem 2rem 1.2rem;
+  }
+  &__name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  &__label {
+    font-weight: 600;
+  }
+}
