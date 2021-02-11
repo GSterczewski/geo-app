@@ -1,27 +1,55 @@
 
-import { useState } from "react";
-
+import Layout from "components/Layout";
 import Header from "components/Header";
-import ModeButton from "components/ModeButton";
+import ThemeButton from "components/ThemeButton";
 import Searchbar from "components/Searchbar";
 import RegionSelect from "components/RegionSelect";
 
+import { ThemeProvider } from "components/ThemeProvider";
+
 function App() {
   
-  const [mode, setMode] = useState("light");
-  const regions = ["Africa", "America","Asia","Europe","Oceania"]  
+  const regions = [{
+    id: 'region-1',
+    name: "Africa",
+    value: "africa"
+  },{
+    id: 'region-2',
+    name: "America",
+    value: "america"
+  },
+  {
+    id: 'region-3',
+    name: "Asia",
+    value: "asia"
+  },
+  {
+    id: 'region-4',
+    name: "Europe",
+    value: "europe"
+  },{
+    id: 'region-5',
+    name: "Oceania",
+    value: "oceania"
+  }]
+  
+  
+
   return (
-    <div className={`${mode}-theme`}>
-      <div className="wrapper">
+    <ThemeProvider>
+    <Layout>
         <Header>
-          <ModeButton mode={mode} onThemeSwitch={() => mode === 'light'? setMode("dark") : setMode("light")} />
+          <ThemeButton />
         </Header>
         <aside className="element controls">
         <Searchbar />
-        <RegionSelect options={regions} />
+        <RegionSelect options={regions} label="Filter by region" />
         </aside>
-      </div>
-    </div>
+        <main>
+        </main>
+    </Layout>
+      
+    </ThemeProvider>
   );
 }
 
