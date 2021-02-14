@@ -1,10 +1,12 @@
 export enum WorldRegion {
+  all =" All",
   africa = "Africa",
   america = "America",
   asia = "Asia",
   europe = "Europe",
   oceania = "Oceania",
 }
+
 
 export interface APIResponse <T>{
   hasErrors: boolean;
