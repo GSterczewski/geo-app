@@ -28,7 +28,7 @@ const CountryInfo = ({name,population,capital,flag,region} : CountryInfoProps) =
 );
 
 const CountriesList = ({countries}:CountriesListProps) => {
-
+  if(!countries.length) return (<h1>No countries found</h1>)
   return (
     <>
     <ul className="country-list">

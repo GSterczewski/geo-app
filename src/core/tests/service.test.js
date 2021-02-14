@@ -15,14 +15,21 @@ const service = new CountriesService(new CountriesAPI("mirage/api"));
 describe("CountriesService", ()=>{
   describe("getAllCountries", ()=>{
 
-    it("should return first 2 Countries", ()=>{
-      return service.getAllCountries(1,2).then(results => {
+    it("should return all Countries", ()=>{
+      return service.getAllCountries().then(results => {
         expect(results).toBeInstanceOf(Array);
-        expect(results).toHaveLength(2);
+        expect(results.length).toBeGreaterThan(0);
         results.forEach(result => {
-          
           expect(result).toBeInstanceOf(Country);
         })
+      })
+    })
+  })
+  describe("getCountriesByName", ()=>{
+    it("should return empty array when no country match provided pattern", ()=>{
+      return service.getCountriesByName("chj").then(results => {
+        expect(results).toBeInstanceOf(Array);
+        expect(results).toHaveLength(0);
       })
     })
   })

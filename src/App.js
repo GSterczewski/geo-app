@@ -10,44 +10,17 @@ import RegionSelect from "components/RegionSelect";
 import CountriesContainer from "components/CountriesContainer";
 
 function App() {
-  
-  const regions = [{
-    id: 'region-1',
-    name: "Africa",
-    value: "africa"
-  },{
-    id: 'region-2',
-    name: "America",
-    value: "america"
-  },
-  {
-    id: 'region-3',
-    name: "Asia",
-    value: "asia"
-  },
-  {
-    id: 'region-4',
-    name: "Europe",
-    value: "europe"
-  },{
-    id: 'region-5',
-    name: "Oceania",
-    value: "oceania"
-  }]
-  
-  
-
   return (
     <ThemeProvider>
     <Layout>
         <Header>
           <ThemeButton />
         </Header>
+        <CountriesProvider>
         <aside className="element controls">
         <Searchbar />
-        <RegionSelect options={regions} label="Filter by region" />
+        <RegionSelect/>
         </aside>
-        <CountriesProvider>
         <main className="element">
           <CountriesContainer />
         </main>

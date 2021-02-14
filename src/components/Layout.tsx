@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { ThemeContext } from "components/ThemeProvider";
 
-interface LayourProps {
+interface LayoutProps {
   children: React.ReactChildren;
 }
-const Layout = ({ children }: LayourProps) => {
+const Layout = ({ children }: LayoutProps) => {
 
   const { theme } =  useContext(ThemeContext);
   return (

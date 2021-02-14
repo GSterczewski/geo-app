@@ -1,7 +1,7 @@
 import { useCountries } from "components/CountriesProvider";
 import CountriesList from "components/CountriesList";
 
-const CountriesContainer = () => {
+export default function CountriesContainer() {
 
   const { countries } = useCountries();
 
@@ -12,5 +12,3 @@ const CountriesContainer = () => {
     </>
   )
 };
-
-export default CountriesContainer;
