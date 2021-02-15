@@ -8,10 +8,8 @@ const Layout = ({ children }: LayoutProps) => {
 
   const { theme } =  useContext(ThemeContext);
   return (
-    <div className={`${theme}-theme`}>
-      <div className="wrapper">
+    <div className={`wrapper ${theme}-theme`}>
         { children }
-    </div>
     </div>
   )
 }
