@@ -1,4 +1,3 @@
-import { time } from "console";
 
 export default function debouce<F extends (...args: any)=> any >(callback: F, wait = 100 ){
   

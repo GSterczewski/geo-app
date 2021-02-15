@@ -14,7 +14,7 @@ export default class CountriesService {
     return response.slice(( pageNumber * pageSize) - pageSize , pageNumber * pageSize );
   }
   
-  private handleResponse(response: APIResponse<Country[]>, successCallback : (response:CountryResponseModel[]) => Country[]):Country[]{
+  private handleResponse(response: APIResponse<CountryResponseModel[]>, successCallback : (response:CountryResponseModel[]) => Country[]):Country[]{
     if(response.hasErrors){
       console.error(response.error);
       return []

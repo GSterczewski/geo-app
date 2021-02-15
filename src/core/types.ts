@@ -22,10 +22,22 @@ export interface CountryResponseModel  {
   capital: string;
   population: number;
   region: WorldRegion;
-  
+  nativeName:string;
+  subregion: string;
+  topLevelDomain: string;
+  languages : Array<{
+    name: string;
+    nativeName:string;
+  }>;
+  currencies: Array<{
+    code: string;
+    name: string;
+    symbol: string;
+  }>;
+  borders: Array<CountryResponseModel["alpha3Code"]>; 
   
 }
-
+/*
 export interface CountryDetailsResponseModel extends CountryResponseModel{
   
   nativeName:string;
@@ -35,6 +47,8 @@ export interface CountryDetailsResponseModel extends CountryResponseModel{
     name: string;
     nativeName:string;
   }>;
+  currencies: Array<string>;
   borders: Array<CountryResponseModel["alpha3Code"]>;
 }
 
+*/

@@ -1,15 +1,19 @@
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  
+} from "react-router-dom";
 import { ThemeProvider } from "components/ThemeProvider";
 import  CountriesProvider  from "components/CountriesProvider";
-
 import Layout from "components/Layout";
 import Header from "components/Header";
 import ThemeButton from "components/ThemeButton";
-import Searchbar from "components/Searchbar";
-import RegionSelect from "components/RegionSelect";
-import CountriesContainer from "components/CountriesContainer";
+import HomePage from "components/HomePage";
+import CountryPage from "components/CountryPage";
 
 function App() {
+
   return (
     <ThemeProvider>
     <Layout>
@@ -17,13 +21,16 @@ function App() {
           <ThemeButton />
         </Header>
         <CountriesProvider>
-        <aside className="element controls">
-        <Searchbar />
-        <RegionSelect/>
-        </aside>
-        <main className="element">
-          <CountriesContainer />
-        </main>
+        <Router>
+          <Switch>
+            <Route path="/" exact>
+              <HomePage />
+            </Route>
+            <Route path="/:name" exact>
+              <CountryPage />
+            </Route>
+          </Switch>
+        </Router>
         </CountriesProvider>
     </Layout>
       

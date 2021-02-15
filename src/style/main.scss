@@ -1,10 +1,3 @@
-//$Dark Blue (Dark Mode Elements): hsl(209, 23%, 22%);
-//$Very Dark Blue (Dark Mode Background): hsl(207, 26%, 17%);
-// $Very Dark Blue (Light Mode Text): hsl(200, 15%, 8%);
-// $Dark Gray (Light Mode Input): hsl(0, 0%, 52%);
-// $Very Light Gray (Light Mode Background): hsl(0, 0%, 98%);
-// $White (Dark Mode Text & Light Mode Elements): hsl(0, 0%, 100%);
-
 * {
   padding: 0;
   box-sizing: border-box;
@@ -27,6 +20,22 @@
 $horizontal-padding: 2rem;
 $horizontal-padding--desktop: 5rem;
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+.button {
+  background-color: var(--elements-background);
+  color: var(--input-color);
+  padding: 0.5rem 2rem;
+  border-radius: 0.25rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 .wrapper {
   width: 100vw;
   min-height: 100vh;
@@ -35,6 +44,7 @@ $horizontal-padding--desktop: 5rem;
   font-family: "Nunito Sans", sans-serif;
 }
 .element {
+  color: var(--text-color);
   padding-left: $horizontal-padding;
   padding-right: $horizontal-padding;
   margin-bottom: 5rem;
@@ -45,7 +55,7 @@ $horizontal-padding--desktop: 5rem;
 }
 .header {
   background-color: var(--elements-background);
-  color: var(--text-color);
+  //color: var(--text-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -104,7 +114,6 @@ $horizontal-padding--desktop: 5rem;
 .country-list {
   width: 100%;
   min-width: 300px;
-  list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-content: center;
@@ -116,7 +125,7 @@ $horizontal-padding--desktop: 5rem;
   margin-bottom: 2rem;
   width: 300px;
   background-color: var(--elements-background);
-  color: var(--text-color);
+  //color: var(--text-color);
   &__flag {
     width: 100%;
   }
@@ -130,5 +139,25 @@ $horizontal-padding--desktop: 5rem;
   }
   &__label {
     font-weight: 600;
+  }
+}
+
+.country-details {
+  &__img {
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  &__heading {
+    margin-bottom: 2rem;
+  }
+  &__label {
+    font-weight: 600;
+  }
+  &__list {
+    margin-bottom: 2rem;
+    & > li {
+      margin-bottom: 0.5rem;
+    }
   }
 }
