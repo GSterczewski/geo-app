@@ -7,7 +7,6 @@ export default function CountriesContainer() {
 
   return (
     <>
-      <h1>Countries</h1>
       <CountriesList countries = {countries} />
     </>
   )

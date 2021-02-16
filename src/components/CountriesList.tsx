@@ -17,7 +17,7 @@ interface CountriesListProps{
 
 const CountryInfo = ({name,population,capital,flag,region} : CountryInfoProps) => (
       <li className="country-info">
-        <Link to={`/${name}`}>
+        <Link className="country-info__link" to={`/${name}`}>
         <img className="country-info__flag" src={flag} alt={`${name} flag`}></img>
         <div className="country-info__content">
           <p className="country-info__name">{name}</p>

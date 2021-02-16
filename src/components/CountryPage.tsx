@@ -38,8 +38,8 @@ const CountryDetails = ({ country : {info, borderCountries} } : CountryDetailsPr
       <div className="country-details__borders">
       <h3 className="country-details__label">Border Countries: </h3>
       <ul className="country-details__borders-list">
-        {borderCountries.map(name => (<li key={name} className="button country-details__border-link">
-          <Link to={`/${name}`}>{name}</Link>
+        {borderCountries.map(name => (<li key={name} className="country-details__border-link" >
+          <Link className="button" to={`/${name}`}>{name}</Link>
         </li>))}
       </ul>
       </div>

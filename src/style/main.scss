@@ -1,22 +1,10 @@
+@import "themes";
+@import "mixins";
+
 * {
   padding: 0;
   box-sizing: border-box;
   margin: 0;
-}
-.dark-theme {
-  --background: hsl(207, 26%, 17%);
-  --elements-background: hsl(209, 23%, 22%);
-  --text-color: hsl(0, 0%, 100%);
-  --input-color: hsl(0, 0%, 100%);
-  --shadow-color: #1a242d;
-}
-
-.light-theme {
-  --background: hsl(0, 0%, 98%);
-  --elements-background: hsl(0, 0%, 100%);
-  --text-color: hsl(200, 15%, 8%);
-  --input-color: hsl(0, 0%, 52%);
-  --shadow-color: #cbcbcb;
 }
 
 $horizontal-padding: 2rem;
@@ -42,6 +30,8 @@ ul {
   font-family: "Nunito Sans", sans-serif;
 }
 .button {
+  @include shadow;
+  @include no-default-focus;
   background-color: var(--elements-background);
   color: var(--input-color);
   padding: 0.5rem 2rem;
@@ -49,8 +39,8 @@ ul {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  box-shadow: $button-shadow-dimesions var(--shadow-color);
 }
+
 .element {
   color: var(--text-color);
   padding-left: $horizontal-padding;
@@ -61,6 +51,7 @@ ul {
     padding-right: $horizontal-padding--desktop;
   }
 }
+
 .header {
   background-color: var(--elements-background);
   display: flex;
@@ -98,13 +89,16 @@ ul {
 }
 
 .input {
+  @include no-default-focus;
+  @include shadow;
+
   background-color: var(--elements-background);
   color: var(--text-color);
   border: none;
   border-radius: 4px;
   padding: 1rem;
   &::placeholder {
-    color: var(--text-color);
+    color: var(--input-color);
     opacity: 1;
   }
 }
@@ -112,6 +106,12 @@ ul {
 .searchbar {
   width: 100%;
   max-width: 400px;
+  background-image: var(--input-icon);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position-y: center;
+  background-position-x: 20px;
+  padding-left: 50px;
 }
 
 .region-select {
@@ -131,8 +131,15 @@ ul {
 .country-info {
   margin-bottom: 2rem;
   width: 300px;
-  background-color: var(--elements-background);
+  &__link {
+    @include no-default-focus;
+    @include shadow;
 
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: var(--elements-background);
+  }
   &__flag {
     width: 100%;
   }
@@ -193,7 +200,6 @@ ul {
   &__border-link {
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
-    box-shadow: $button-shadow-dimesions--sm var(--shadow-color);
     &:not(:last-of-type) {
       margin-right: 0.5rem;
     }
