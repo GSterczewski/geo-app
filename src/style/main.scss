@@ -116,6 +116,13 @@ ul {
 
 .region-select {
   width: 150px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-size: 10px;
+  background-image: var(--select-icon);
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 120px;
 }
 
 .country-list {
