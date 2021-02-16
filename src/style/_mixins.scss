@@ -1,0 +1,16 @@
+@mixin no-default-focus {
+  &:focus {
+    outline: none;
+  }
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
+@mixin shadow {
+  box-shadow: var(--box-shadow);
+  &:hover,
+  &:focus {
+    box-shadow: var(--box-shadow--active);
+  }
+}
