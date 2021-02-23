@@ -6,18 +6,16 @@ interface CountryInfoProps{
   capital:string;
   flag:string;
   region:string;
-}
-interface CountryFullInfo extends CountryInfoProps {
   alpha3Code:string;
-
 }
+
 interface CountriesListProps{
-  countries: Array<CountryFullInfo>;
+  countries: Array<CountryInfoProps>;
 }
 
-const CountryInfo = ({name,population,capital,flag,region} : CountryInfoProps) => (
+const CountryInfo = ({ alpha3Code, name, population, capital, flag, region } : CountryInfoProps) => (
       <li className="country-info">
-        <Link className="country-info__link" to={`/${name}`}>
+        <Link className="country-info__link" to={`/${alpha3Code}`}>
         <img className="country-info__flag" src={flag} alt={`${name} flag`}></img>
         <div className="country-info__content">
           <p className="country-info__name">{name}</p>
@@ -34,8 +32,8 @@ const CountriesList = ({countries}:CountriesListProps) => {
   return (
     <>
     <ul className="country-list">
-    {countries.map(({alpha3Code,...country})=>(
-      <CountryInfo key={alpha3Code} {...country} />
+    {countries.map(country=>(
+      <CountryInfo key={country.alpha3Code} {...country} />
       ))}
     </ul>
   </>

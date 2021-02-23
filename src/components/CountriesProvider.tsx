@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { Country } from "core/country";
 
-import { testService as service } from "core/index";
+import  { testService as service } from "core/index";
 import initServer from "../mirageServer";
 import { WorldRegion } from "core/types";
 initServer();
@@ -10,6 +10,8 @@ initServer();
 interface CountriesContextType {
   countries: Country[];
   regions: typeof WorldRegion;
+  selectedRegion: WorldRegion;
+  nameQuery:string;
   setNameQuery: (query:string) => void;
   setCountries: (countries: Country[]) => void;
   selectRegion: (region: WorldRegion) => void;
@@ -22,6 +24,8 @@ type ContextProvider = (props: React.PropsWithChildren<null>) => React.ReactNode
 export const CountriesContext = createContext<CountriesContextType>({
   countries: [],
   regions: WorldRegion,
+  selectedRegion:WorldRegion.all,
+  nameQuery:"",
   setNameQuery: () => console.warn("No nameQuery setter"),
   setCountries: () => console.warn("No countries provider"),
   selectRegion: () => console.warn("No regions provider")
@@ -69,7 +73,7 @@ const loadCountries = (request : Promise<Country[]>) => {
   if (isLoading) return (<div>loading....</div>)
   if (isError) return (<div>ooops something went wrong :(</div>)
   return (
-    <CountriesContext.Provider value={{ countries: filteredCountries, regions: WorldRegion, selectRegion, setCountries, setNameQuery }}>
+    <CountriesContext.Provider value={{ countries: filteredCountries, regions: WorldRegion, selectRegion, selectedRegion, setCountries, nameQuery, setNameQuery }}>
       {children}
     </CountriesContext.Provider>
   )

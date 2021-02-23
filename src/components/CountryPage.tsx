@@ -1,20 +1,41 @@
 
 import { useParams, Link } from "react-router-dom";
-import { useCountries } from "./CountriesProvider";
-import { useMemo } from "react";
-import { Country } from "core/country";
+import { useCallback } from "react";
+import useService from "hooks/useService";
+import {  Country } from "core/country";
+import { testService as service } from "core/index";
 
 interface RouterParams {
-  name: string
+  code: string
 }
 
 interface CountryDetailsProps {
-  country: {
-    info: Country,
-    borderCountries: Array<Country["name"] | undefined>
-  }
+  country: Country
 }
-const CountryDetails = ({ country : {info, borderCountries} } : CountryDetailsProps) => (
+ interface BorderListProps {
+   borders: Array<string>;
+ }
+
+const BorderList = ({ borders }: BorderListProps) => {
+  const getBorderNames = useCallback(()=> service.getCountryNamesByCodes(borders),[borders])
+  const {isLoading, error, resource : borderCountries} = useService<Array<{code:string;name:string}>>(getBorderNames);
+
+  if(isLoading) return (<ul className="country-details__borders-list">
+    <li className="country-details__border-link">
+      <div className="button">loading...</div>
+    </li>
+  </ul>)
+  if(error.length) return <div>{error}</div>
+  return (
+    <ul className="country-details__borders-list">
+{borderCountries && borderCountries.map(({name,code}) => (<li key={code} className="country-details__border-link" >
+  <Link className="button" to={`/${code}`}>{name}</Link>
+</li>))}
+</ul>
+  )
+} 
+
+const CountryDetailsView = ({ country : {borderCodes, ...info} } : CountryDetailsProps) => (
   <article className="country-details">
       <img className="country-details__img" src={info.flag} alt={`${info.name} flag`}/>
       
@@ -37,34 +58,25 @@ const CountryDetails = ({ country : {info, borderCountries} } : CountryDetailsPr
       
       <div className="country-details__borders">
       <h3 className="country-details__label">Border Countries: </h3>
-      <ul className="country-details__borders-list">
-        {borderCountries.map(name => (<li key={name} className="country-details__border-link" >
-          <Link className="button" to={`/${name}`}>{name}</Link>
-        </li>))}
-      </ul>
+      <BorderList borders={borderCodes}/>
       </div>
       </section>
   </article>
 )
 export default function CountryPage(){
-  const { name }: RouterParams = useParams();
-  const { countries } = useCountries();
-  const selectedCountry = useMemo(()=> {
-    const country = countries.find(country => country.name === name);
-    const borderCountries = country ? country.borderCodes.map(code => countries.find(country => country.alpha3Code === code)?.name).filter(Boolean) : [];
-    
-    return {
-      info:country,
-      borderCountries
-    }
-  }, [name,countries]);
+  const { code }: RouterParams = useParams();
+ 
+  const getDetails = useCallback(()=>service.getCountryDetails(code),[code])
+  const { isLoading, error, resource } = useService<Country | undefined>(getDetails)
   
-  if (!selectedCountry.info) return
+ 
+  if (isLoading) return (<div>loading....</div>)
+  if (error.length) return (<div>{error}</div>)
   
   return(
     <div className="element">
       <Link to="/" className="button country-page__button">Back</Link>
-      <CountryDetails country={{info:selectedCountry.info, borderCountries:selectedCountry.borderCountries}} />
+      {resource && <CountryDetailsView country={resource} />}
     </div>
   )
 }

@@ -1,15 +1,12 @@
-import { useState } from "react";
 import { useCountries } from "components/CountriesProvider";
 import { WorldRegion } from "core/types";
 
 export default function RegionSelect(){
-  const { regions, selectRegion } = useCountries();
-  const  [selectedRegion, setRegion] = useState("Filter by region");
+  const { regions, selectRegion, selectedRegion } = useCountries();
   
   
   const handleChange = (region: string) => {
-    setRegion(region);
-    selectRegion(region as WorldRegion);
+        selectRegion(region as WorldRegion);
   };
   
   return (

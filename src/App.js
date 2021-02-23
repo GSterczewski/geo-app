@@ -26,7 +26,7 @@ function App() {
             <Route path="/" exact>
               <HomePage />
             </Route>
-            <Route path="/:name" exact>
+            <Route path="/:code" exact>
               <CountryPage />
             </Route>
           </Switch>

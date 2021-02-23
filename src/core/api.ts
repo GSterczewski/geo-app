@@ -48,7 +48,11 @@ constructor(private readonly url: string){
   }
   public async fetchByAlphaCodes(codes:string[]){
     const query = codes.join(";");
-    return this.request<CountryResponseModel>(this.createQuery(`/all/alpha?codes=${query}`));
+    return this.request<CountryResponseModel[]>(this.createQuery(`/alpha?codes=${query}`));
+  }
+  public async fetchByAlphaCode(code: string){
+    
+    return this.request<CountryResponseModel>(this.createQuery(`/alpha/${code}`));
   }
   public async fetchByName(name:string){
     return this.request<CountryResponseModel[]>(this.createQuery(`/name/${name}`));

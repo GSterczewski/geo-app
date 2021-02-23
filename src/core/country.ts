@@ -35,3 +35,11 @@ export  class Country {
     //this.borderCountries = response.borderCountries;
   }
 };
+export class CountryDetails extends Country{
+  readonly borderCountries: Array<string>;
+  constructor(responseModel: CountryResponseModel, borderCountries: Array<Country["name"]>){
+    super(responseModel)
+    this.borderCountries = borderCountries;
+    
+  }
+}
