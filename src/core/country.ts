@@ -15,7 +15,10 @@ export  class Country {
   readonly languages: Array<string>;
   readonly borderCodes: Array<string>;
   readonly currencies: Array<string>;
-  //readonly borderCountries: Array<string>;
+  borderCountries: Array<{
+    name:string;
+    code: string;
+  }>;
   
   constructor(response: CountryResponseModel)
     {
@@ -32,9 +35,18 @@ export  class Country {
     this.languages = response.languages.map(language =>language.name);
     this.currencies = response.currencies.map(currency => currency.name);
     this.borderCodes = response.borders;
-    //this.borderCountries = response.borderCountries;
+    this.borderCountries = [];
+  }
+  addBorderCountries(countries: Country[] = []){
+    if(countries.length){
+      this.borderCountries = countries.map(({ name,alpha3Code }) =>({
+        code:alpha3Code,
+        name
+      }));
+    }
   }
 };
+/*
 export class CountryDetails extends Country{
   readonly borderCountries: Array<string>;
   constructor(responseModel: CountryResponseModel, borderCountries: Array<Country["name"]>){
@@ -43,3 +55,4 @@ export class CountryDetails extends Country{
     
   }
 }
+*/

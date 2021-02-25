@@ -1,68 +1,112 @@
-import { APIResponse, CountryResponseModel } from "core/types";
+import { CountryResponseModel } from "core/types";
 import  CountriesAPI  from "./api";
 import { Country } from "./country";
 
 
+interface CountriesState {
+  list : Array<Country["alpha3Code"]>;
+  map: { [code:string]: Country };
+}
 
+interface ServiceResponse<T> {
+  result : T;
+  hasErrors: boolean;
+  error?:string;
+}
 export default class CountriesService {
- 
+  
+  state : CountriesState;
+  loaded: boolean;
+  error?: string;
   constructor(private api : CountriesAPI){
     this.api = api;
+    this.state = {
+      list: [],
+      map: {}
+};
+    this.loaded = false;
+    
   };
- 
-  private paginateResponse(response: Country[], pageNumber:number, pageSize:number):Country[] {
-    return response.slice(( pageNumber * pageSize) - pageSize , pageNumber * pageSize );
+   
+  private handleSuccess<T>(result : T ):ServiceResponse<T>{
+      return {
+        hasErrors:false,
+        result
+      }
   }
-  
-  private handleResponse(response: APIResponse<CountryResponseModel[]>, successCallback : (response:CountryResponseModel[]) => Country[]):Country[]{
-    if(response.hasErrors){
-      console.error(response.error);
-      return []
+  private handleError<T>(result : T):ServiceResponse<T>{
+    return {
+      hasErrors:true,
+      error: this.error,
+      result
     }
-    if(response.result && response.result.length){
-      return successCallback(response.result)
-    }
-    return []
-  }
-  
-  public async getAllCountries(): Promise<Country[]> {
-      
-    const response = await this.api.fetchAll("/all?fields=name;capital;population;alpha3Code;flag;region");
-    if(response.hasErrors){
-      console.error(response.error);
-      return []
-    }
-    return this.handleResponse(response, (countries) => countries.map(coutryData=> new Country(coutryData)))  
-  }
-  public async getCountriesByName(nameQuery:string): Promise<Country[]>{
-    const request = await this.api.fetchByName(nameQuery);
+}
 
-    return this.handleResponse(request, (countries) => countries.map(coutryData=> new Country(coutryData)))  
+  private normalizeCountryData(countries:Country[]): CountriesState{
+    const map:CountriesState["map"] = {};
+    const list:CountriesState["list"] = [];
+    countries.forEach(country => {
+      map[country.alpha3Code] = country;
+      list.push(country.alpha3Code);
+    });
+
+    return {
+      map,
+      list
+    }
   }
-  public async getCountryNamesByCodes(codes : Array<CountryResponseModel["alpha3Code"]>):Promise<Array<{code:string;name:string}>>{
-    if(!codes || !codes.length){
-      return Promise.resolve([])
+  private async loadCountries(){
+    try{
+      const countriesApiData = await this.api.fetchAll("/all?fields=name;capital;population;alpha3Code;flag;region"); 
+      const { list,map } = this.normalizeCountryData(countriesApiData.map(coutryData=> new Country(coutryData)));
+      this.state.list = list;
+      this.state.map = map;
+      this.state.list.forEach(code => {
+        const country = this.state.map[code];
+        const borderCountries = country.borderCodes.map(borderCode => this.state.map[borderCode]).filter(Boolean) ;
+        country.addBorderCountries(borderCountries);
+      })
+      this.loaded = true;
+      this.error = undefined;  
+
+    } catch(error){
+      console.error(error);
+      this.error = error.message;
+      
     }
-    const response = await this.api.fetchByAlphaCodes(codes);
-    if(response.hasErrors){
-      console.error(response.error);
-      return []
-    }
-    if(response.result){
-      return response.result.map(country => ({name:country.name,code:country.alpha3Code}));
-    }
-    return []
   }
+  public async getAllCountries(): Promise<ServiceResponse<Country[]>> {
+    if(!this.loaded){
+      await this.loadCountries();
+    }
+    if(this.error){
+      return this.handleError([]);
+
+    }
+    return this.handleSuccess(this.state.list.map(code => this.state.map[code]))
+   
   
-  public async getCountryDetails(code : CountryResponseModel["alpha3Code"]):Promise<Country|undefined>{
-    const response = await this.api.fetchByAlphaCode(code);
-    if(response.hasErrors){
-      console.error(response.error);
-      return 
+  }
+
+  public async getCountriesByName(nameQuery:string): Promise<ServiceResponse<Country[]>>{
+    if(!this.loaded){
+      await this.loadCountries();
     }
-    if(response.result){
-      return new Country(response.result)
-     
+    if(this.error){
+      return this.handleError([]);
     }
+    return this.handleSuccess(this.state.list.map(code => this.state.map[code]).filter(country => country.name.toLowerCase() === nameQuery.toLowerCase()))
+    
+  }
+
+  public async getCountryDetails(code : CountryResponseModel["alpha3Code"]):Promise<ServiceResponse<Country|null>>{
+    if(!this.loaded){
+      await this.loadCountries();
+    }
+    if(this.error){
+      console.log(this.error);
+      return this.handleError(null);
+    }
+    return this.handleSuccess(this.state.map[code.toUpperCase()]);
   }
 }

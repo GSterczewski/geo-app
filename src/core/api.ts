@@ -17,6 +17,7 @@ constructor(private readonly url: string){
   private createQuery(slug:string){
     return this.url + slug;
   }
+  /*
   private success<T>(result: T):APIResponse<T>{
     return{
       hasErrors: false,
@@ -29,18 +30,19 @@ constructor(private readonly url: string){
       error
     }
   }
-
-  private async request<T>(url:string){
-    try{
+*/
+  private async request<T>(url:string):Promise<T>{
+    
       const response = await fetch(url);
       if(response.ok){
-        return this.success<T>(await response.json())
+        // return this.success<T>(await response.json())
+         return await response.json();
       }
-        return this.failure<T>(response.statusText);
+      throw new Error(response.statusText);
+        //throw new Error(response.statusText);
+        // return this.failure<T>(response.statusText);
 
-    }catch(error){
-      return this.failure<T>(error);
-    }
+    
   }
   public async fetchAll(slug = "/all"){
     return this.request<CountryResponseModel[]>(this.createQuery(slug));
