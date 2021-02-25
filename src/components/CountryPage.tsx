@@ -1,6 +1,6 @@
 
 import { useParams, Link } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import useService from "hooks/useService";
 import {  Country } from "core/country";
 import { testService as service } from "core/index";
@@ -13,29 +13,22 @@ interface CountryDetailsProps {
   country: Country
 }
  interface BorderListProps {
-   borders: Array<string>;
+   borders: Array<{
+     code:string;
+     name:string;
+   }>;
  }
 
-const BorderList = ({ borders }: BorderListProps) => {
-  const getBorderNames = useCallback(()=> service.getCountryNamesByCodes(borders),[borders])
-  const {isLoading, error, resource : borderCountries} = useService<Array<{code:string;name:string}>>(getBorderNames);
-
-  if(isLoading) return (<ul className="country-details__borders-list">
-    <li className="country-details__border-link">
-      <div className="button">loading...</div>
-    </li>
-  </ul>)
-  if(error.length) return <div>{error}</div>
-  return (
+const BorderList = ({ borders }: BorderListProps) =>  (
     <ul className="country-details__borders-list">
-{borderCountries && borderCountries.map(({name,code}) => (<li key={code} className="country-details__border-link" >
+{borders.map(({name,code}) => (<li key={code} className="country-details__border-link" >
   <Link className="button" to={`/${code}`}>{name}</Link>
 </li>))}
 </ul>
   )
-} 
+ 
 
-const CountryDetailsView = ({ country : {borderCodes, ...info} } : CountryDetailsProps) => (
+const CountryDetailsView = ({ country : {borderCountries, ...info} } : CountryDetailsProps) => (
   <article className="country-details">
       <img className="country-details__img" src={info.flag} alt={`${info.name} flag`}/>
       
@@ -58,7 +51,7 @@ const CountryDetailsView = ({ country : {borderCodes, ...info} } : CountryDetail
       
       <div className="country-details__borders">
       <h3 className="country-details__label">Border Countries: </h3>
-      <BorderList borders={borderCodes}/>
+      <BorderList borders={borderCountries}/>
       </div>
       </section>
   </article>
@@ -67,16 +60,31 @@ export default function CountryPage(){
   const { code }: RouterParams = useParams();
  
   const getDetails = useCallback(()=>service.getCountryDetails(code),[code])
-  const { isLoading, error, resource } = useService<Country | undefined>(getDetails)
+  const [isLoading, setIsLoading] = useState(true);
+  const [country, setCountry] = useState<Country|null>(null);
+  const [error, setError] = useState<string|null>(null);
   
- 
+  useEffect(()=>{
+    getDetails()
+    .then(response => {
+      if(response.error){
+        setIsLoading(false);
+        setError(response.error);
+      }
+      else{
+        setIsLoading(false);
+        setCountry(response.result);
+      }
+    })
+  },[getDetails])
+
   if (isLoading) return (<div>loading....</div>)
-  if (error.length) return (<div>{error}</div>)
+  if (error) return (<div>{error}</div>)
   
   return(
     <div className="element">
       <Link to="/" className="button country-page__button">Back</Link>
-      {resource && <CountryDetailsView country={resource} />}
+      {country && <CountryDetailsView country={country} />}
     </div>
   )
 }

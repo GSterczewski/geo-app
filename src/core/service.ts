@@ -1,4 +1,4 @@
-import { CountryResponseModel } from "core/types";
+import { CountryResponseModel, ServiceResponse } from "core/types";
 import  CountriesAPI  from "./api";
 import { Country } from "./country";
 
@@ -8,11 +8,7 @@ interface CountriesState {
   map: { [code:string]: Country };
 }
 
-interface ServiceResponse<T> {
-  result : T;
-  hasErrors: boolean;
-  error?:string;
-}
+
 export default class CountriesService {
   
   state : CountriesState;

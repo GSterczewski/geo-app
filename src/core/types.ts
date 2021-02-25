@@ -30,3 +30,10 @@ export interface CountryResponseModel  {
   borders: Array<CountryResponseModel["alpha3Code"]>; 
   
 };
+
+
+export interface ServiceResponse<T> {
+  result : T;
+  hasErrors: boolean;
+  error?:string;
+}

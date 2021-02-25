@@ -4,7 +4,7 @@ import { Country } from "core/country";
 
 import  { testService as service } from "core/index";
 import initServer from "../mirageServer";
-import { WorldRegion } from "core/types";
+import { WorldRegion, ServiceResponse } from "core/types";
 initServer();
 
 interface CountriesContextType {
@@ -51,9 +51,12 @@ const CountriesProvider: ContextProvider = ({ children }) => {
 
   }, [countries, selectedRegion])
 
-const loadCountries = (request : Promise<Country[]>) => {
-  request.then(countries => {
-    setCountries(countries);
+const loadCountries = (request : Promise<ServiceResponse<Country[]>>) => {
+  request.then(response => {
+    if(response.hasErrors){
+      throw new Error(response.error);
+    }
+    setCountries(response.result);
     setIsLoading(false);
   }).catch(() => {
     setIsLoading(false);
