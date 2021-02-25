@@ -3,3 +3,23 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+global.stubs =  {
+  countriesInfo: [
+    {
+    name: "Poland",
+    capital: "Warsaw",
+    population: 37000000,
+    flag: "urlToFlag",
+    region: "Europe",
+    alpha3Code: "POL"
+
+},{
+    name: "Germany",
+    capital: "Berlin",
+    population: 137000000,
+    flag: "urlToFlag",
+    region: "Europe",
+    alpha3Code: "GER"
+}]
+};
