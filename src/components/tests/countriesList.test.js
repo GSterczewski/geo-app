@@ -31,23 +31,7 @@ describe("ContainerList", ()=>{
     expect(heading.textContent.length).toBeGreaterThan(0);
   });
   it("renders component and list of countries", ()=>{
-    const stubCountries = [{
-      name: "Poland",
-      capital: "Warsaw",
-      population: 37000000,
-      flag: "urlToFlag",
-      region: "Europe",
-      alpha3Code: "POL"
-
-    },{
-      name: "Germany",
-      capital: "Berlin",
-      population: 137000000,
-      flag: "urlToFlag",
-      region: "Europe",
-      alpha3Code: "GER"
-
-    }]
+    const stubCountries = global.stubs.countriesInfo;
     act(()=>{
       ReactDOM.render(<Router><CountriesList countries={stubCountries} /> </Router>, container);
     });
