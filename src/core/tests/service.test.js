@@ -43,7 +43,7 @@ describe("CountriesService", ()=>{
   });
   describe("getCountryDetails", ()=>{
     it("should return full country data based on provided alpha3Code", () => {
-      return service.getCountryDetails("pol")
+      return service.getCountryDetails("poL")
       .then(response => {
         expect(response.result).toBeInstanceOf(Country);
         expect(response.result.name).toEqual("Poland");
