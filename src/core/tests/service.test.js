@@ -33,8 +33,15 @@ describe("CountriesService", ()=>{
         expect(response.result).toHaveLength(0);
       })
     })
-    it("should return array with countries matching provided pattern", ()=>{
+    it("should return array with countries matching provided full name", ()=>{
       return service.getCountriesByName("poland").then(response =>{
+        expect(response.result).toBeInstanceOf(Array);
+        expect(response.result).toHaveLength(1);
+        expect(response.result[0].name).toEqual("Poland");
+      })
+    })
+    it("should return array with countries matching provided partial name", ()=>{
+      return service.getCountriesByName("pola").then(response =>{
         expect(response.result).toBeInstanceOf(Array);
         expect(response.result).toHaveLength(1);
         expect(response.result[0].name).toEqual("Poland");

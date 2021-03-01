@@ -91,7 +91,7 @@ export default class CountriesService {
     if(this.error){
       return this.handleError([]);
     }
-    return this.handleSuccess(this.state.list.map(code => this.state.map[code]).filter(country => country.name.toLowerCase() === nameQuery.toLowerCase()))
+    return this.handleSuccess(this.state.list.map(code => this.state.map[code]).filter(country => country.name.toLowerCase().includes(nameQuery.toLowerCase())))
     
   }
 
