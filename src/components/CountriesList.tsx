@@ -13,6 +13,8 @@ const CountriesList = ({countries}:CountriesListProps) => {
     {countries.map(country=>(
       <CountryInfo key={country.alpha3Code} {...country} />
       ))}
+      <li className="dummy-country-info" aria-hidden="true"></li>
+      <li className="dummy-country-info" aria-hidden="true"></li>
     </ul>
   </>
   )

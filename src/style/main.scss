@@ -128,20 +128,23 @@ ul {
 .country-list {
   width: 100%;
   min-width: 300px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  justify-content: center;
-  column-gap: 2rem;
-  row-gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @media (max-width: 675px) {
+    justify-content: center;
+  }
 }
 
 .country-info {
   margin-bottom: 2rem;
   width: 300px;
+  &:not(:last-of-type) {
+    margin-right: 0.5rem;
+  }
   &__link {
     @include no-default-focus;
     @include shadow;
-
     width: 100%;
     height: 100%;
     display: block;
@@ -162,7 +165,9 @@ ul {
     font-weight: 600;
   }
 }
-
+.dummy-country-info {
+  width: 300px;
+}
 .country-page {
   &__button {
     margin-bottom: 4rem;
