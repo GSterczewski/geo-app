@@ -199,6 +199,7 @@ ul {
   }
   &__borders-list {
     display: flex;
+    flex-wrap: wrap;
     margin-top: $vertical-gap/4;
   }
   &__list-item {
@@ -207,9 +208,6 @@ ul {
   &__border-link {
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
-    &:not(:last-of-type) {
-      margin-right: 0.5rem;
-    }
   }
 
   @media (min-width: 1200px) {
