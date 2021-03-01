@@ -53,7 +53,7 @@ export default class CountriesService {
   }
   private async loadCountries(){
     try{
-      const countriesApiData = await this.api.fetchAll("/all?fields=name;capital;population;alpha3Code;flag;region"); 
+      const countriesApiData = await this.api.fetchAll("/all?fields=name;capital;population;alpha3Code;flag;region;languages;borders;currencies;nativeName;topLevelDomain;subregion"); 
       const { list,map } = this.normalizeCountryData(countriesApiData.map(coutryData=> new Country(coutryData)));
       this.state.list = list;
       this.state.map = map;

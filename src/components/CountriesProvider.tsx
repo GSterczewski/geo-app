@@ -2,10 +2,12 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { Country } from "core/country";
 
-import  { testService as service } from "core/index";
+import service  from "core/index";
 import initServer from "../mirageServer";
 import { WorldRegion, ServiceResponse } from "core/types";
-initServer();
+if( process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development'){
+  initServer();
+}
 
 interface CountriesContextType {
   countries: Country[];

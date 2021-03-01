@@ -1,7 +1,7 @@
 export enum WorldRegion {
   all =" All",
   africa = "Africa",
-  america = "America",
+  america = "Americas",
   asia = "Asia",
   europe = "Europe",
   oceania = "Oceania",

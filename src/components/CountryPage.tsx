@@ -2,7 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useCallback, useState, useEffect } from "react";
 import {  Country } from "core/country";
-import { testService as service } from "core/index";
+import service  from "core/index";
 
 interface RouterParams {
   code: string
