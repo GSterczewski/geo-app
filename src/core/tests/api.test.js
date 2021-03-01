@@ -5,7 +5,7 @@ import  initServer from "../../mirageServer.js";
 beforeAll(()=>{
    const server = initServer();
    server.logging = false;
-})
+});
 
 
 describe("CountriesAPIService", ()=>{

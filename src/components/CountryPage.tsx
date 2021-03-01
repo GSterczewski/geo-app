@@ -1,7 +1,6 @@
 
 import { useParams, Link } from "react-router-dom";
 import { useCallback, useState, useEffect } from "react";
-import useService from "hooks/useService";
 import {  Country } from "core/country";
 import { testService as service } from "core/index";
 
