@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import { useState }  from "react";
 export interface CountryInfoProps{
   name:string;
   population:number;
@@ -9,10 +9,19 @@ export interface CountryInfoProps{
   alpha3Code:string;
 }
 
-const CountryInfo = ({ alpha3Code, name, population, capital, flag, region } : CountryInfoProps) => (
-  <li className="country-info">
+const CountryInfo = ({ alpha3Code, name, population, capital, flag, region } : CountryInfoProps) => {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const styling = {
+    hidden : {
+      display:'none'
+    },
+  }
+  return (
+    <li className="country-info">
     <Link className="country-info__link" to={`/${alpha3Code}`}>
-    <img className="country-info__flag" src={flag} alt={`${name} flag`}></img>
+     <div className="country-info__flag-container">
+      <img className="country-info__flag" style={ imgLoaded ? {} : styling.hidden } src={flag} alt={`${name} flag`} onLoad={()=>setImgLoaded(true)}></img>
+    </div> 
     <div className="country-info__content">
       <p className="country-info__name">{name}</p>
       <p><span className="country-info__label">Population: </span>{population}</p>
@@ -21,6 +30,7 @@ const CountryInfo = ({ alpha3Code, name, population, capital, flag, region } : C
     </div>
     </Link>
   </li>
-);
+    )
+  };
 
 export default CountryInfo;

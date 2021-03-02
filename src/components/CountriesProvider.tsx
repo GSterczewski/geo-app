@@ -75,7 +75,7 @@ const loadCountries = (request : Promise<ServiceResponse<Country[]>>) => {
     }
   }, [nameQuery]);
 
-  if (isLoading) return (<div>loading....</div>)
+  if (isLoading) return (<div className="fallback"></div>)
   if (isError) return (<div>ooops something went wrong :(</div>)
   return (
     <CountriesContext.Provider value={{ countries: filteredCountries, regions: WorldRegion, selectRegion, selectedRegion, setCountries, nameQuery, setNameQuery }}>
