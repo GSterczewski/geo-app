@@ -9,11 +9,47 @@ interface CountriesState {
 }
 
 
+
+class Cache<T> {
+  cacheKey:string;
+  constructor(cacheKey:string){
+    this.cacheKey = cacheKey;
+  }
+  private isAvailable():boolean {
+    try{
+      localStorage.setItem("test","test");
+      localStorage.getItem("test");
+      return true;
+
+    } catch(err){
+      return false;
+    }
+  }
+
+  public load(): T | null {
+    if(this.isAvailable()){
+      const item = localStorage.getItem(this.cacheKey);
+      return item ? JSON.parse(item) : null;
+    }
+    return null
+  }
+  public save(data : T):boolean {
+    if(this.isAvailable()){
+      try{
+        localStorage.setItem(this.cacheKey, JSON.stringify(data));
+      } catch(err){
+        return false;
+      }
+    }
+    return false;
+  }
+}
 export default class CountriesService {
   
   state : CountriesState;
   loaded: boolean;
   error?: string;
+  cache: Cache<CountryResponseModel[]>;
   constructor(private api : CountriesAPI){
     this.api = api;
     this.state = {
@@ -21,7 +57,7 @@ export default class CountriesService {
       map: {}
 };
     this.loaded = false;
-    
+    this.cache = new Cache<CountryResponseModel[]>("countries")
   };
    
   private handleSuccess<T>(result : T ):ServiceResponse<T>{
@@ -52,9 +88,15 @@ export default class CountriesService {
     }
   }
   private async loadCountries(){
-    try{
-      const countriesApiData = await this.api.fetchAll("/all?fields=name;capital;population;alpha3Code;flag;region;languages;borders;currencies;nativeName;topLevelDomain;subregion"); 
-      const { list,map } = this.normalizeCountryData(countriesApiData.map(coutryData=> new Country(coutryData)));
+     let countries = this.loadFromCache();
+     if(!countries || countries.length === 0){
+        countries = await this.loadFromAPI();
+      }
+      this.setState(countries);
+  }
+  
+  private setState(countries: CountryResponseModel[]){
+    const { list,map } = this.normalizeCountryData(countries.map(countryData => new Country(countryData)));
       this.state.list = list;
       this.state.map = map;
       this.state.list.forEach(code => {
@@ -63,15 +105,27 @@ export default class CountriesService {
         country.addBorderCountries(borderCountries);
       })
       this.loaded = true;
-      this.error = undefined;  
+      this.error = undefined;
+  };
+  private loadFromCache():CountryResponseModel[]{
+    return this.cache.load() || [];
+    
+  };
 
+  private async loadFromAPI():Promise<CountryResponseModel[]>{
+    try{
+      const countriesApiData = await this.api.fetchAll("/all?fields=name;capital;population;alpha3Code;flag;region;languages;borders;currencies;nativeName;topLevelDomain;subregion"); 
+      this.cache.save(countriesApiData);
+      return countriesApiData;
+     
     } catch(error){
       console.error(error);
       this.error = error.message;
-      
+      return [];    
     }
   }
   public async getAllCountries(): Promise<ServiceResponse<Country[]>> {
+    
     if(!this.loaded){
       await this.loadCountries();
     }
@@ -81,7 +135,6 @@ export default class CountriesService {
     }
     return this.handleSuccess(this.state.list.map(code => this.state.map[code]))
    
-  
   }
 
   public async getCountriesByName(nameQuery:string): Promise<ServiceResponse<Country[]>>{

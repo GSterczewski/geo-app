@@ -60,7 +60,8 @@ const loadCountries = (request : Promise<ServiceResponse<Country[]>>) => {
     }
     setCountries(response.result);
     setIsLoading(false);
-  }).catch(() => {
+  }).catch((errror) => {
+    console.error(errror);
     setIsLoading(false);
     setIsError(true);
   })
