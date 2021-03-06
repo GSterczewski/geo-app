@@ -16,6 +16,6 @@ export default function Searchbar(){
   }
   
   return (  
-    <input className="input searchbar" type="text" placeholder="Search for a country..." value={localQuery}  onChange={e => onInput(e.target.value)} />
+    <input className="input searchbar" type="text" aria-label="search for a country" placeholder="Search for a country..." value={localQuery}  onChange={e => onInput(e.target.value)} />
   )
 }

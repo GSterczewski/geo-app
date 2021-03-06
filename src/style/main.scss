@@ -12,6 +12,11 @@ $horizontal-padding--desktop: 5rem;
 $button-shadow-dimesions: 0px 0px 4px 2px;
 $button-shadow-dimesions--sm: 0px 0px 4px 1px;
 
+html {
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -70,7 +75,7 @@ ul {
   padding-bottom: 2rem;
 
   &__title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 }
 .mode-button {
