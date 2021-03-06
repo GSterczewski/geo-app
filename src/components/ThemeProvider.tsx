@@ -21,7 +21,7 @@ export const ThemeProvider:(props: React.PropsWithChildren<null>) => React.React
   const [theme, setTheme] = useState(Theme.Light);
  
   const switchTheme = () => {
-    console.log("switching theme")
+    
     theme === Theme.Light ? setTheme(Theme.Dark) : setTheme(Theme.Light)
   };
   
